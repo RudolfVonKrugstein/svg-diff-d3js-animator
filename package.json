@@ -7,7 +7,7 @@
   "typings": "dist/svg-diff-d3js-animator.d.ts",
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npx jest",
     "lint": "eslint . --ext .ts --exit-on-fatal-error"
   },
   "repository": {
@@ -21,10 +21,13 @@
   },
   "homepage": "https://github.com/RudolfVonKrugstein/svg-diff-d3js-animator#readme",
   "devDependencies": {
+    "@types/jest": "^29.2.0",
     "@typescript-eslint/eslint-plugin": "^5.40.1",
     "@typescript-eslint/parser": "^5.40.1",
     "eslint": "^8.25.0",
+    "jest": "^29.2.0",
     "rollup": "^2.79.1",
+    "ts-jest": "^29.0.3",
     "typescript": "^4.8.4"
   }
 }

@@ -48,8 +48,8 @@ jobs:
           node-version: 16.x
       - name: Build npm package
         run: npm run build
-      - name: 'Login to npmjs.com'
-        run: npm login
+      - name: "Store npm token"
+        run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> $HOME/.npmrc
         env:
           NPM_TOKEN: ${{ secrets.NPMJS_COM_API_TOKEN }}
       - name: 'Publish to npmjs.com'
