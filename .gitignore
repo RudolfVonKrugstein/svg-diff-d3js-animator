@@ -1,3 +1,11 @@
+# Editor
+.idea/
+
+# build dirs
+out-tsc/
+/build/
+bundle.js
+
 # Logs
 logs
 *.log
