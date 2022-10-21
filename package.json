@@ -2,9 +2,14 @@
   "name": "svg-diff-d3js-animator",
   "version": "0.0.1",
   "description": "Animate diffs produced by svg-diff using d3",
-  "main": "dist/svg-diff-d3js-animator.js",
-  "module": "dist/svg-diff-d3js-animator.mjs",
-  "typings": "dist/svg-diff-d3js-animator.d.ts",
+  "files": [
+    "out-tsc/**/*.js",
+    "src/**/*.ts",
+    "bundle.js"
+  ],
+  "module": "out-tsc/index.js",
+  "main": "out-tsc/index.js",
+  "jsdelivr": "bundle.js",
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js",
     "test": "npx jest",
