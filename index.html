@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+    <title>SVG Diff D3 Animaotor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.6.1/d3.min.js" integrity="sha512-MefNfAGJ/pEy89xLOFs3V6pYPs6AmUhXJrRlydI/9wZuGrqxmrdQ80zKHUcyadAcpH67teDZcBeS6oMJLPtTqw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript" src="./bundle.js"></script>
+</head>
+<body>
+<div>
+    <svg>
+        <svg width=500 height=400 id="tkzafrfd-0" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" fill="#ff0000" id="tkzafrfd-2" r="10" stroke="#ffff00"/>
+            <circle cx="40" cy="40" id="tkzafrfd-1" r="20"/>
+            <circle cx="60" cy="60" id="tkzafrfd-3" r="10"/>
+        </svg>
+    </svg>
+</div>
+
+<script>
+    svg_diff_d3js_animator.apply_animation([
+            {
+                "action": "change",
+                "id": "tkzafrfd-2",
+                "adds": [],
+                "removes": [
+                    {
+                        "prop": "stroke",
+                        "value": "#ffff00"
+                    }
+                ],
+                "changes": [
+                    {
+                        "prop": "fill",
+                        "start": "#ff0000",
+                        "end": "#008000"
+                    }
+                ]
+            },
+            {
+                "action": "change",
+                "id": "tkzafrfd-3",
+                "adds": [],
+                "removes": [],
+                "changes": [
+                    {
+                        "prop": "cx",
+                        "start": "60",
+                        "end": "80"
+                    },
+                    {
+                        "prop": "cy",
+                        "start": "60",
+                        "end": "80"
+                    }
+                ]
+            }
+        ]
+    );
+</script>
+</body>
+</html>
