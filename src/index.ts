@@ -10,11 +10,12 @@ function html_to_svg_element(html: string): ChildNode {
 
 async function apply_remove_animation(diff: any) {
     console.log("removing");
-    d3.select('#' + diff.id)
+    await d3.select('#' + diff.id)
         .attr("opacity", 1.0)
         .transition()
         .duration(1000)
-        .attr("opacity", 0.0).remove();
+        .attr("opacity", 0.0).remove()
+        .end();
 }
 
 
@@ -28,11 +29,12 @@ async function apply_add_animation(diff: any) {
     } else {
         document.getElementById(diff.parent_id)!.appendChild(html_to_svg_element(diff.svg)!);
     }
-    d3.select('#' + diff.id)
+    await d3.select('#' + diff.id)
         .attr('opacity', 0.0)
         .transition()
         .duration(1000)
-        .attr('opacity', 1.0);
+        .attr('opacity', 1.0)
+        .end();
 }
 
 async function apply_change_animation(diff: any) {
@@ -50,6 +52,7 @@ async function apply_change_animation(diff: any) {
     for (const change of diff.adds) {
         anim.attr(change.prop, change.value);
     }
+    await anim.end();
 }
 
 async function apply_change_text_animation(diff: any) {
@@ -67,6 +70,7 @@ async function apply_change_text_animation(diff: any) {
     for (const change of diff.adds) {
         anim.attr(change.prop, change.value);
     }
+    await anim.end();
 }
 
 export default {
