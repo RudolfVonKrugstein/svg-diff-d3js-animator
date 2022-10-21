@@ -16,9 +16,9 @@ jobs:
         with:
           node-version: 16.x
       - name: Install dependencies
-        run: npm ci
+        run: yarn install
       - name: Check, lint
-        run: npm run lint
+        run: yarn lint
 
   test:
     name: Test
@@ -30,9 +30,9 @@ jobs:
         with:
           node-version: 16.x
       - name: Install dependencies
-        run: npm ci
+        run: yarn install
       - name: Test
-        run: npm run test
+        run: yarn test
 
   release:
     name: Release to npmjs.com
@@ -47,7 +47,7 @@ jobs:
         with:
           node-version: 16.x
       - name: Build npm package
-        run: npm run build
+        run: yarn build
       - name: "Store npm token"
         run: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> $HOME/.npmrc
         env:

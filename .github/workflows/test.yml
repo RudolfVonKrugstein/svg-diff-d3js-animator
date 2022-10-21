@@ -12,9 +12,9 @@ jobs:
         with:
           node-version: 16.x
       - name: Install dependencies
-        run: npm ci
+        run: yarn install
       - name: Test
-        run: npm run test
+        run: yarn test
 #      - name: Generate test result and coverage report
 #        run: |
 #          cargo install cargo2junit grcov;
