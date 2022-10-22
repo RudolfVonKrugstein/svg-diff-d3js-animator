@@ -77,7 +77,7 @@ async function apply_change_text_animation(diff: any) {
 }
 
 export default async function apply_animation(diffs: any[]) {
-    for (const diff of diffs) {
+    await Promise.all(diffs.map(async (diff) => {
         switch (diff.action) {
             case "remove":
                 await apply_remove_animation(diff);
@@ -93,5 +93,5 @@ export default async function apply_animation(diffs: any[]) {
                 break;
         }
 
-    }
+    }));
 }
