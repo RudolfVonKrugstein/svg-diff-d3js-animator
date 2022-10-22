@@ -5,6 +5,14 @@
     <script type="text/javascript" src="./bundle.js"></script>
 </head>
 <body>
+<div>
+    <input type="radio" id="rewind" name="anim_type" value="Rewind" onclick="animator.rewind()">
+    <label for="rewind">Rewind</label><br>
+    <input type="radio" id="repeat" name="anim_type" value="Repeat" checked="true" onclick="animator.repeat_all()">
+    <label for="repeat">Repeat</label><br>
+    <input type="radio" id="run" name="anim_type" value="Run" onclick="animator.run_all()">
+    <label for="run">Run</label>
+</div>
 <div id="container">
     <svg>
         <svg width=500 height=400 id="tkzafrfd-0" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
