@@ -1,6 +1,6 @@
 {
   "name": "svg-diff-d3js-animator",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Animate diffs produced by svg-diff using d3",
   "files": [
     "out-tsc/**/*.js",
