@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/RudolfVonKrugstein/svg-diff-d3js-animator#readme",
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.0.1",
     "@types/jest": "^29.2.0",
     "@typescript-eslint/eslint-plugin": "^5.40.1",
     "@typescript-eslint/parser": "^5.40.1",
@@ -41,6 +42,7 @@
   },
   "dependencies": {
     "@types/d3": "^7.4.0",
+    "async-mutex": "^0.4.0",
     "d3": "^7.6.1"
   }
 }

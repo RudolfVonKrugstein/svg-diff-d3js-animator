@@ -1,109 +1,75 @@
-import d3 from 'd3';
-
-function html_to_svg_element(html: string): ChildNode {
-    const template = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
-    html = html.trim();
-    template.innerHTML = html;
-    return template.firstChild!;
-}
+import {Mutex} from "async-mutex";
+import apply_animation from "./apply_animation";
+import load_svg from "./load_svg";
 
 
-async function apply_remove_animation(diff: any) {
-    console.log("removing");
-    await d3.select('#' + diff.id)
-        .attr("opacity", 1.0)
-        .transition()
-        .duration(1000)
-        .attr("opacity", 0.0).remove()
-        .end();
-}
+export class Animator {
+    // The target element id
+    private readonly target_id: string;
+    // The start svgs of the animations
+    private readonly svgs: string[];
+    // The diffs to apply
+    private readonly diffs: any[][];
+    // The current animation index
+    private anim_index: number;
+    // Ensure only one animation is running
+    private run_mutex: Mutex;
 
-
-async function apply_add_animation(diff: any) {
-    console.log("adding");
-    if (diff.next_child_id !== undefined) {
-        document.getElementById(diff.parent_id)!.insertBefore(
-            html_to_svg_element(diff.svg)!,
-            document.getElementById(diff.next_child_id)
-        );
-    } else {
-        document.getElementById(diff.parent_id)!.appendChild(html_to_svg_element(diff.svg)!);
-    }
-    await d3.select('#' + diff.id)
-        .attr('opacity', 0.0)
-        .transition()
-        .duration(1000)
-        .attr('opacity', 1.0)
-        .end();
-}
-
-async function apply_change_animation(diff: any) {
-    console.log("change");
-    const el = d3.select('#' + diff.id);
-    const dom_element = document.getElementById(diff.id);
-    for (const remove of diff.removes) {
-        el.attr(remove, null)
+    constructor(target_id: string, svgs: string[], diffs: any[][]) {
+        this.target_id = target_id;
+        this.svgs = svgs;
+        this.diffs = diffs;
+        this.anim_index = 0;
+        this.run_mutex = new Mutex();
     }
 
-    const anim = el.transition().duration(1000);
-    for (const change of diff.changes) {
-        anim.attr(change.prop, change.end);
-    }
-    for (const change of diff.adds) {
-        anim.attr(change.prop, change.value);
-    }
-    await anim.end();
-}
-
-async function apply_change_text_animation(diff: any) {
-    console.log("change");
-    const el = d3.select('#' + diff.id);
-    const dom_element = document.getElementById(diff.id);
-    for (const remove of diff.removes) {
-        el.attr(remove, null)
+    async rewind() {
+        await this.run_mutex.runExclusive(async () => {
+            this.anim_index = 0;
+            await load_svg(this.target_id, this.svgs[0]);
+            })
     }
 
-    const anim = el.transition().duration(1000);
-    for (const change of diff.changes) {
-        anim.attr(change.prop, change.end);
-    }
-    for (const change of diff.adds) {
-        anim.attr(change.prop, change.value);
-    }
-    await anim.end();
-}
-
-export default {
-    load_base_svg: async function (container_id: string, svg: string) {
-        if (svg === undefined) {
-            const response = await fetch('./svg');
-            svg = await response.text();
-        }
-        const target = document.getElementById(container_id);
-        if (target != null) {
-            target.innerHTML = svg;
-        } else {
-            throw `Unable to find element with id ${container_id}`;
-        }
-    },
-
-    apply_animation: async function (diffs: any[]) {
-        for (const diff of diffs) {
-            switch (diff.action) {
-                case "remove":
-                    await apply_remove_animation(diff);
-                    break;
-                case "add":
-                    await apply_add_animation(diff);
-                    break;
-                case "change":
-                    await apply_change_animation(diff);
-                    break;
-                case "change_text":
-                    await apply_change_text_animation(diff);
-                    break;
+    async run_by_index(index: number): Promise<boolean> {
+        let result = false;
+        await this.run_mutex.runExclusive(async () => {
+            if (index >= this.diffs.length) {
+                result = false; // do nothing
+                return;
             }
+            // Load the base svg
+            await load_svg(this.target_id, this.svgs[index]);
+            // Do the animation
+            await apply_animation(this.diffs[index]);
+            // Update index
+            this.anim_index = index + 1;
+            result = true;
+        });
+        return result;
+    }
 
+    async run_next(): Promise<boolean> {
+        return await this.run_by_index(this.anim_index);
+    }
+
+    async run_all() {
+        for (let index = 0; index < this.diffs.length; ++index) {
+            await this.run_by_index(index);
+            if (this.run_mutex.isLocked()) {
+                return;
+            }
         }
     }
+
+    async repeat_all() {
+        do {
+            await this.run_all();
+        } while(!this.run_mutex.isLocked());
+    }
+
 }
+
+
+
+
+
