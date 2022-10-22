@@ -1,0 +1,75 @@
+
+++++
+<div>
+    <input type="radio" id="rewind" name="anim_type" value="Rewind">
+    <label for="rewind">Rewind</label><br>
+    <input type="radio" id="repeat" name="anim_type" value="Repeat" checked="true">
+    <label for="repeat">Repeat</label><br>
+    <input type="radio" id="run" name="anim_type" value="Run">
+    <label for="run">Run</label>
+</div>
+<div id="container">
+    <svg>
+        <svg width=500 height=400 id="tkzafrfd-0" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" fill="#ff0000" id="tkzafrfd-2" r="10" stroke="#ffff00"/>
+            <circle cx="40" cy="40" id="tkzafrfd-1" r="20"/>
+            <circle cx="60" cy="60" id="tkzafrfd-3" r="10"/>
+        </svg>
+    </svg>
+</div>
+<script type="text/javascript" src="./bundle.js"></script>
+<script type="module">
+    let animator = new svg_diff_d3js_animator.Animator(
+        "container",
+        [
+        "        <svg width=500 height=400 id=\"tkzafrfd-0\" viewBox=\"0 0 500 400\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
+        "            <circle cx=\"20\" cy=\"20\" fill=\"#ff0000\" id=\"tkzafrfd-2\" r=\"10\" stroke=\"#ffff00\"/>\n" +
+        "            <circle cx=\"40\" cy=\"40\" id=\"tkzafrfd-1\" r=\"20\"/>\n" +
+        "            <circle cx=\"60\" cy=\"60\" id=\"tkzafrfd-3\" r=\"10\"/>\n" +
+        "        </svg>"],
+        [[
+            {
+                "action": "change",
+                "id": "tkzafrfd-2",
+                "adds": [],
+                "removes": [
+                    {
+                        "prop": "stroke",
+                        "value": "#ffff00"
+                    }
+                ],
+                "changes": [
+                    {
+                        "prop": "fill",
+                        "start": "#ff0000",
+                        "end": "#008000"
+                    }
+                ]
+            },
+            {
+                "action": "change",
+                "id": "tkzafrfd-3",
+                "adds": [],
+                "removes": [],
+                "changes": [
+                    {
+                        "prop": "cx",
+                        "start": "60",
+                        "end": "80"
+                    },
+                    {
+                        "prop": "cy",
+                        "start": "60",
+                        "end": "80"
+                    }
+                ]
+            }
+        ]]
+    );
+    animator.repeat_all();
+    console.log(document.getElementById("rewind"));
+    document.getElementById("rewind").onclick = () => animator.rewind();
+    document.getElementById("repeat").onclick = () => animator.repeat_all();
+    document.getElementById("run").onclick = () => animator.run_all();
+</script>
+++++
